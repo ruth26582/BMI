@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>BMI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            font-family: Microsoft JhengHei;
+            color: rgb(95, 16, 168);
+            background-color: rgba(205, 228, 255, 0.678);
+        }
+
+        table {
+            border: 3px #ce4040 solid;
+            width: 500px;
+            height: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .bg {
+            background-color: rgb(169, 191, 231);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="BMI" class="container text-center mt-5">
+        <h2>請輸入您的身高體重 : </h2>
+        身高 : <input type="text" class="mt-2" v-model="height">cm<br>
+        體重 : <input type="text" class="mt-2" v-model="weight">kg<br>
+
+        <div class="mt-3">您的BMI為 : {{BMItotal}} {{Comparison}}
+            <button class="btn btn-outline-info ml-3" v-on:click="empty">重新輸入</button></div>
+
+        <table class="mt-5" rules="all">
+            <tr>
+                <td class="bg"></td>
+                <td class="bg">身體質量指數(BMI)<br>
+                    (kg/m2)</td>
+            </tr>
+            <tr>
+                <td class="bg">體重過輕</td>
+                <td>BMI ＜ 18.5
+                </td>
+            </tr>
+            <tr>
+                <td class="bg">正常範圍</td>
+                <td>18.5≦BMI＜24
+                </td>
+            </tr>
+            <tr>
+                <td class="bg">異常範圍</td>
+                <td>過重 ：24 ≦ BMI＜ 27<br>
+                    輕度肥胖：27 ≦ BMI＜ 30<br>
+                    中度肥胖：30 ≦ BMI＜ 35<br>
+                    重度肥胖： BMI ≧ 35　</td>
+            </tr>
+
+        </table>
+    </div>
+
+
+    <script>
+        var BMI = new Vue({
+            el: '#BMI',
+            data: {
+                height: '',
+                weight: ''
+
+            },
+            computed: {
+
+                BMItotal() {
+                    var height = Number(this.height) / 100;
+                    var weight = Number(this.weight);
+                    var BMItotal = weight / (height * height);
+                    return parseFloat(BMItotal.toFixed(2)) || 0;
+
+
+                },
+                Comparison() {
+                    if(this.BMItotal==0){
+                        return ''
+                    }else if (this.BMItotal < 18.5) {
+                        return '體重過輕'
+                    } else if (18.5 <= this.BMItotal && this.BMItotal< 24) {
+                        return '正常範圍'
+                    }
+                    else if (24 <= this.BMItotal && this.BMItotal < 27) {
+                        return '過重'
+                    }
+                    else if (27 <= this.BMItotal && this.BMItotal < 30) {
+                        return '輕度肥胖'
+
+                    } else if (30 <= this.BMItotal && this.BMItotal < 35) {
+                        return '中度肥胖'
+                    } else if (this.BMItotal >= 35) {
+                        return '重度肥胖'
+                    }
+ 
+                }
+
+            },
+            methods: {
+                empty() {
+                    this.height = "";
+                    this.weight = "";
+                }
+            
+
+            }
+
+        })
+
+    </script>
+
+</body>
+
+</html>
